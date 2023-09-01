@@ -8,8 +8,9 @@
                 </div>
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
                     <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+              
                         <li class="nav-item">         
-                            <a  data-bs-toggle="tab"  data-bs-target="#tab-1" href="">
+                            <a  data-bs-toggle="tab"  data-bs-target="#tab-1" href="tab-1">
                             <div class="ps-3">
                                 <a href="<?php echo $mainurl;?>menu?breakfast=<?php echo $showcat[0]["category_id"];?>" class="d-flex align-items-center text-start mx-3 ms-0 p-3 active">   
                                 <div> 
@@ -58,25 +59,44 @@
 
                     <div class="tab-content">
                                          
-
-                         <div id="tab-1" class="tab-pane fade show p-0 active">
+                     <div id="tab-1" class="tab-pane fade show p-0 active">
                            <div class="row g-4">
+                            
                              <?php
                                    foreach($shwlist as $row)
                                   {
-                                  
                                     ?>
+                                    
                                 <div class="col-lg-6">
+                                <form method="post">
+                                    <input type="hidden" name="pro_id" value="<?php echo $row["pro_id"];?>"> 
                                     <div class="d-flex align-items-center">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="Admin/<?php echo $row["Product_Photo"];?>" alt="" style="width: 80px;">
+                                    <img class="flex-shrink-0 img-fluid rounded" src="Admin/<?php echo $row["Product_Photo"];?>" alt="" style="width: 130px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                 <span><?php echo $row["Product_Name"]; ?></span>
-                                                <span class="text-primary"><?php echo $row["Price"]; ?></span>
+                                                <b class="text-primary ms-auto">Rs.<input type="number" name="subtotal" value="<?php echo $row["Price"];?>" style="border:none;width:70px;" class=" text-primary ms-auto"  readonly></b>
+                                                <?php 
+                                                    if(!isset($_SESSION["c_id"]))
+                                                    {
+                                                    ?>
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick='return confirm(this.value)'>Add</button>
+                                                      
+                                                    <?php 
+                                                    }
+                                                    else 
+                                                    {
+                                                    ?>
+                                                    <button type="submit" name="addtocart" class="btn btn-sm btn-primary">Add</button>
+                                                    <?php 
+                                                    }
+                                                    ?>
                                             </h5>
                                         </div>
                                     </div>
+                                                </form>
                                 </div>
+                                                
                                <?php
                                 }
                                 ?>
@@ -92,11 +112,27 @@
                                 ?>
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="Admin/<?php echo $row["Product_Photo"];?>" alt="" style="width: 80px;">
+                                    <img class="flex-shrink-0 img-fluid rounded" src="Admin/<?php echo $row["Product_Photo"];?>" alt="" style="width: 130px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                 <span><?php echo $row["Product_Name"]; ?></span>
-                                                <span class="text-primary"><?php echo $row["Price"]; ?></span>
+                                                <b class="text-primary ms-auto">Rs.<input type="number" name="subtotal" value="<?php echo $row["Price"];?>" style="border:none;width:70px;" class=" text-primary ms-auto"  readonly></b>
+                                                <?php 
+                                                    if(!isset($_SESSION["c_id"]))
+                                                    {
+                                                    ?>
+                                                    <button type="button" class="btn btn-sm btn-primary" onclick='return confirm(this.value)'>Add</button>
+                                                      
+                                                    <?php 
+                                                    }
+                                                    else 
+                                                    {
+                                                    ?>
+                                                    <button type="submit" name="addtocart" class="btn btn-sm btn-primary">Add</button>
+                                                    <?php 
+                                                    }
+                                                    ?>
+                                            </span>
                                             </h5>
                                         </div>
                                     </div>
@@ -117,11 +153,27 @@
                                 ?>
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
-                                    <img class="flex-shrink-0 img-fluid rounded" src="Admin/<?php echo $row["Product_Photo"];?>" alt="" style="width: 80px;">
+                                    <img class="flex-shrink-0 img-fluid rounded" src="Admin/<?php echo $row["Product_Photo"];?>" alt="" style="width: 130px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                 <span><?php echo $row["Product_Name"]; ?></span>
-                                                <span class="text-primary"><?php echo $row["Price"]; ?></span>
+                                                <b class="text-primary ms-auto">Rs.<input type="number" name="subtotal" value="<?php echo $row["Price"];?>" style="border:none;width:70px;" class=" text-primary ms-auto"  readonly></b>
+                                                <?php 
+                                                    if(!isset($_SESSION["c_id"]))
+                                                    {
+                                                    ?>
+                                                    <button type="button" class="btn btn-sm btn-primary " onclick='return confirm(this.value)'>Add</button>
+                                                      
+                                                    <?php 
+                                                    }
+                                                    else 
+                                                    {
+                                                    ?>
+                                                    <button type="submit" name="addtocart" class="btn btn-sm btn-primary">Add</button>
+                                                    <?php 
+                                                    }
+                                                    ?>
+                                            </span>
                                             </h5>
                                         </div>
                                     </div>
@@ -129,11 +181,13 @@
                                <?php
                                 }
                                 ?>
-                            </div>
+                            </div>           
+                            
+
+
                         </div>
                        
-                      
-
+                       
 
 
                 </div>
@@ -146,3 +200,14 @@
 
         
         <!-- Menu End -->
+<script>
+// book your seat
+
+function confirm()
+{
+    <button type="button" class="btn-close" aria-label="Close"></button>
+    alert('want to Add your Order Login to continue..')
+    window.location='login';
+}
+
+</script>
