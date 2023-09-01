@@ -65,7 +65,7 @@ class model
             return $arr;
         }
 
-        //create a member fumction to display category of product
+       //create a member fumction to display category of product
         public function selectdetails($table,$column,$id)
         {
             $sel="select * from $table where $column='$id'";
@@ -77,6 +77,55 @@ class model
             return $arr;
         }
 
+          // create a member function for select count total of added in cart by customer
+            public function selectcount($table,$column,$column1,$id)
+            {
+               $select="select count($column) as total from $table where $column1='$id'";
+                $exe=mysqli_query($this->connection,$select);
+                while($fetch=mysqli_fetch_array($exe))
+                {
+                    $arr[]=$fetch;
+                }
+                return $arr;
+            }
+
+            // create a member function for select count total of added in cart by customer
+            public function selectsumcart($table,$column,$column1,$id)
+            {
+               $select="select sum($column) as sum_total from $table where $column1='$id'";
+                $exe=mysqli_query($this->connection,$select);
+                while($fetch=mysqli_fetch_array($exe))
+                {
+                    $arr[]=$fetch;
+                }
+                return $arr;
+            }
+
+       //create a member function to view cart
+        public function viewcart($table,$table1,$table2,$where,$where1,$column,$id)
+        {
+            $select="select * from $table join $table1 on $where join $table2 on $where1 where $table2.$column='$id'";
+            $exe=mysqli_query($this->connection,$select);
+            while($fetch=mysqli_fetch_array($exe))
+            {
+                $arr[]=$fetch;
+            }
+            return $arr;
+        }
+
+          // delete a data for users create a member function
+          public function deletedata($table,$id)
+          {
+              $column=array_keys($id);
+              $column1=implode(",",$column);
+      
+              $value=array_values($id);
+              $value1=implode("','",$value);
+      
+              $delete="delete from $table where $column1='$value1'";
+              $exe=mysqli_query($this->connection,$delete);
+              return $exe;
+          }
 
         //create a member function to user login
         public function userlogin($table,$em,$pass)
@@ -135,14 +184,31 @@ class model
             {
                 return false;
             }
-
         }
-
+             // edit a data for users create a member function
+            public function editdata($table,$id)
+            {
+                $edit="select * from $table";
+                $exe=mysqli_query($this->connection,$edit);
+                while($fetch=mysqli_fetch_array($exe))
+                {
+                        $arr[]=$fetch;
+                }
+                return $arr;
+            }
 
         // create a member function for update a data
         public function updatedata($table,$path,$em,$phn,$st,$ct,$column,$id)
         {
             $upd="update $table set Photo='$path',Email='$em',Phone='$phn',state_id='$st',city_id='$ct' where c_id='$id'";
+            $exe=mysqli_query($this->connection,$upd);
+            return $exe;
+        }
+
+        // create a member function for update a data
+        public function updateorder($table,$nm,$em,$dttm,$per,$req,$id)
+        {
+            $upd="update $table set Name='$nm',Email='$em',Date_Time='$dttm',Person='$per',Request='$req' where '$id'";
             $exe=mysqli_query($this->connection,$upd);
             return $exe;
         }
