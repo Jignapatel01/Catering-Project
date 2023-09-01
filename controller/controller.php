@@ -100,17 +100,15 @@ class controller extends model
             {
                 echo "<script>
                     alert('login successfully')
-                    window.location='./';
-
-                </script>";
+                    window.location='./'
+                    </script>";
             }
             else
             {
                     echo "<script>
                     alert('Email and password are incorrect try again');
                     window.location='login';
-
-                </script>";
+                     </script>";
             }
         }
 
@@ -118,7 +116,7 @@ class controller extends model
         //forget password logic
     if(isset($_POST["frgpwd"]))
     {
-        require_once("PHPMailer/PHPMailer.php");
+        require_once("PHPMailer/PHPMailer.php");    
         require_once("PHPMailer/SMTP.php");
         require_once("PHPMailer/Exception.php");
         
@@ -186,8 +184,83 @@ class controller extends model
         $id=$_GET["breakfast"];
         $shwlist=$this->selectdetails('tbl_product','category_id',$id);
     }  
+
+    //fetch data of all product
+    if(isset($_GET["pid"]))
+    {
+        $id=$_GET["pid"];
+        $shwallpro=$this->selectdetails('tbl_product','pro_id',$id);
+    }
     
+    //insert to book a table
+    if(isset($_POST["booktbl"]))
+    {
+        $nm=$_POST["nm"];
+        $email=$_POST["email"];
+        $dt=$_POST["dttime"];
+        $per=$_POST["per"];
+        $req=$_POST["req"];
+        $data=array("Name"=>$nm,"Email"=>$email,"Date_Time"=>$dt,"Person"=>$per,"Request"=>$req);
+        $chk=$this->insertdata("book_table",$data);
+        if($chk)
+        {
+            echo "<script>
+              alert('Table Book successfully')
+              window.location='./';
+              </script>";
+        }
+        else
+        {
+            echo "<script>
+              alert('Something went wrong')
+              window.location='./reservation';
+              </script>";
+        }
+    }
+
+    // add to cart data
+    if(isset($_POST["addtocart"]))
+    {
+        date_default_timezone_set("asia/calcutta");
+        $pid=$_POST["pro_id"];
+        $cid=$_SESSION["c_id"];
+        $price=$_POST["subtotal"];
+        $date=date("d/m/Y h:i:s a");
+        $data=array("pro_id"=>$pid,"c_id"=>$cid,"subtotal"=>$price,"added_date"=>$date);
+        $chk=$this->insertdata("tbl_cart",$data);
+        if($chk)
+        {
+            echo "<script>
+                alert('Your Item Successfully Added in Cart')
+                window.location='./view-cart';
+            
+            </script>";
+        }
+
+    }    
+
+    // select count cart after login as customer
+    if(isset($_SESSION["c_id"]))
+    {
+        $id=$_SESSION["c_id"];     
+        $totalcart=$this->selectcount('tbl_cart','cart_id','c_id',$id);
+   
+    }
+
+     // total of added cart item
+     if(isset($_SESSION["c_id"]))
+     {
+         $id=$_SESSION["c_id"];     
+         $totcart=$this->totalcartsum('tbl_cart','subtotal','c_id',$id);
     
+     }
+
+    //view cart added by user
+    if(isset($_SESSION["c_id"]))
+    {
+        $id=$_SESSION["c_id"];
+        $shwcart=$this->viewcart('tbl_cart','tbl_product','tbl_customer','tbl_cart.pro_id=tbl_product.  pro_id','tbl_cart.c_id=tbl_customer.c_id','c_id',$id);
+    }
     
 
 
@@ -269,7 +342,7 @@ class controller extends model
                  require_once("navigation.php");
                  require_once("slider.php");
                  require_once("service.php");
-                 require_once("menu.php");
+                 require_once("menuitem.php");
                  require_once("reservation.php");
                  require_once("team.php");
                  require_once("footer.php");
@@ -296,6 +369,14 @@ class controller extends model
                 require_once("footer.php");
                 break;
 
+
+            case '/menuitem':
+                require_once("index.php");
+                require_once("navigation.php");
+                require_once("menuitem.php");
+                require_once("footer.php");
+                break;
+        
             case '/reservation':
                 require_once("index.php");
                 require_once("navigation.php");
@@ -360,6 +441,20 @@ class controller extends model
                 require_once("index.php");
                 require_once("navigation.php");
                 require_once("changepassword.php");
+                require_once("footer.php");
+                break;
+
+            case '/menu-item':
+                require_once("index.php");
+                require_once("navigation.php");
+                require_once("menuitem.php");
+                require_once("footer.php");
+                break;
+
+            case '/view-cart':
+                require_once("index.php");
+                require_once("navigation.php");
+                require_once("viewcart.php");
                 require_once("footer.php");
                 break;
 
